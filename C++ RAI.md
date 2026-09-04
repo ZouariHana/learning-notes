@@ -2,7 +2,7 @@ RAII: Resource Acquisistion is initialition
 It is used to avoid undefined behavior and double delete/free/ memory leaks. How?
 If you have to manage a resource: (allocate and free) creating a class for it will automate the management process. 
 Destructor: It is called whenever a an object goes out of scope.
-# Rule of Three:
+# Rule of Three
 If you define a destructor you also should define copy constructor and copy assignment operator.
 
 # Copy constructor and Copy Assignement Operator
@@ -21,13 +21,53 @@ This is mostly the case for business-logic classes.
 
 # Rvalues and Lvalues
 
-** int& ** is an lvalue reference to an int.
-** int&& ** is an rvalue reference to an int.
+**int&** is an lvalue reference to an int.
+**int&&** is an rvalue reference to an int.
 
 Lvalue reference parameters cannot bind to rvalues and vice versa.
-Exception: const lvalue references can bind to rvalues. f(const int&); f(i) //OK; f(42) //Also OK!;
 
-Copy constructors take const lvalue references. Move constructors take rvalue references.
+_Exception:_ const lvalue references can bind to rvalues. 
+
+f(const int&); f(i) //OK; f(42) //Also OK!;
+
+Copy constructors take const lvalue references. 
+
+Move constructors take rvalue references.
+
 Move constructors are cheaper because its just about trasferring ownership not about copying the resource and allocating a new one.
+
 That is why all STL containers are move-enabled.
 
+# Move semantics and Rule Of Five
+
+_Rule of Five:_ If your code manages a resource then you may need to hand-write all **five** special member functions for correctness and performance.
+_Note:_ For sole correctness, you just need the Rule of Three. 
+
+# The by-value assignment operator
+
+T& operator=(T other) {  // note: by value, not by reference
+    swap(*this, other);  // member or non-member swap
+    return *this;
+}
+
+This can be enough(instead of seperating copy and move). 
+It can serve as **both** copy and move assignment, depending on whether the argument is an lvalue or rvalue.
+a = b;           // b is an lvalue
+a = std::move(b); // b is an rvalue (xvalue)
+a = T{};         // temporary (prvalue)
+
+For an lvalue (b):
+
+    other is copy-constructed from b.
+
+    Then you swap *this with that copy.
+
+    Effect: copy assignment.
+
+For an rvalue (std::move(b) or T{}):
+
+    other is move-constructed (if you have a move constructor; otherwise copy-constructed).
+
+    Then you swap *this with that moved-into other.
+
+    Effect: move assignment (if move construction is available).
