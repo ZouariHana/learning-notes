@@ -19,4 +19,15 @@ If a class has members that do resource management for themselves like std::vect
 We can use the keyword =default to signal that using the default constructors is a deliberate choice (self-documenting code)
 This is mostly the case for business-logic classes.
 
+# Rvalues and Lvalues
+
+** int& ** is an lvalue reference to an int.
+** int&& ** is an rvalue reference to an int.
+
+Lvalue reference parameters cannot bind to rvalues and vice versa.
+Exception: const lvalue references can bind to rvalues. f(const int&); f(i) //OK; f(42) //Also OK!;
+
+Copy constructors take const lvalue references. Move constructors take rvalue references.
+Move constructors are cheaper because its just about trasferring ownership not about copying the resource and allocating a new one.
+That is why all STL containers are move-enabled.
 
