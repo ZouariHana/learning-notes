@@ -52,8 +52,11 @@ T& operator=(T other) {  // note: by value, not by reference
 
 This can be enough(instead of seperating copy and move). 
 It can serve as **both** copy and move assignment, depending on whether the argument is an lvalue or rvalue.
+
 a = b;           // b is an lvalue
+
 a = std::move(b); // b is an rvalue (xvalue)
+
 a = T{};         // temporary (prvalue)
 
 For an lvalue (b):
@@ -71,3 +74,15 @@ For an rvalue (std::move(b) or T{}):
     Then you swap *this with that moved-into other.
 
     Effect: move assignment (if move construction is available).
+
+# Rule of Four (and a half)
+If your code manages a resource then you may need to hand-write all **four** special member functions for correctness and performance.
+
+- A destructor
+- A copy constructor
+- A move constructor
+- A by-value assignment operator
+
+  1/2 : write a nonmember **swap** function and ideally a member version too.
+  
+  (You cannot use std::swap because it calls the move assignment operator of your class which you chose not to write by following this rule.)
