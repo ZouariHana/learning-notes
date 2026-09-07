@@ -24,3 +24,8 @@ class Date {
   public:
   Date(Year year, Month month, Day day);
 };
+
+# Polymorphic classes
+
+* 3 keywords to deal with polymorphism in C++: **virtual** , **override**, **final**
+  **Default parameters**: You want to avoid using default parameters with virtual member functions. https://youtu.be/SuubuqI4gVA?t=2709
