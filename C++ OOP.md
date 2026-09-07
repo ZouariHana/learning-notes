@@ -123,3 +123,9 @@ The major difference between compile-time and runtime polymorphism is:
 * 3 keywords to deal with polymorphism in C++: **virtual** , **override**, **final**
   
   **Default parameters**: You want to avoid using default parameters with virtual member functions. https://youtu.be/SuubuqI4gVA?t=2709
+
+  Why? 
+
+  Default arguments are bound at compile time using the static type of the expression (the type of the pointer/reference you wrote the call with).
+
+  Virtual dispatch happens at runtime using the dynamic type of the object (the actual derived class).
