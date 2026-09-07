@@ -129,3 +129,21 @@ The major difference between compile-time and runtime polymorphism is:
   Default arguments are bound at compile time using the static type of the expression (the type of the pointer/reference you wrote the call with).
 
   Virtual dispatch happens at runtime using the dynamic type of the object (the actual derived class).
+
+
+# Destructor and polymorphism
+
+  In C++, making a base class destructor virtual ensures that deleting a derived object through a base class pointer safely calls both the derived and base destructors, preventing resource leaks.
+  
+  [1] (https://www.geeksforgeeks.org/cpp/when-to-use-virtual-destructors-in-cpp/), [2] (https://www.youtube.com/watch?v=05CzXZ9IbC8&t=1)
+
+  **How It Works Without a Virtual Destructor**
+
+  If a base class destructor is not virtual, deleting a derived object via a base class pointer causes undefined behavior.
+  
+  Only the base class destructor runs. The derived class destructor is skipped, which leaves any memory or resources allocated by the derived class unreleased (memory leak).
+  [1] (https://stackoverflow.com/questions/29363817/virtual-destructor-in-polymorphic-classes), [2] (https://www.youtube.com/watch?v=05CzXZ9IbC8&t=1), [3] (https://www.geeksforgeeks.org/cpp/when-to-use-virtual-destructors-in-cpp/)
+
+  **How It Works With a Virtual Destructor**
+
+  Prefacing the base destructor with the virtual keyword enables dynamic binding (runtime polymorphism) for destruction. When you delete the pointer, C++ looks at the actual object type at runtime. It runs the derived class destructor first, and then automatically walks down to run the base class destructor.
