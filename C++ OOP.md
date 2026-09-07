@@ -107,6 +107,17 @@ Output
 
 Explanation: The overloaded + operator adds the real and imaginary parts of two Complex objects. When c1 + c2 is used, the overloaded operator function is called automatically.
 
+# Compile-Time vs. Runtime Polymorphism
+
+The major difference between compile-time and runtime polymorphism is:
+
+| Compile-Time Polymorphism | Runtime Polymorphism |
+|---|---|
+| Also called **static binding** | Also called **dynamic binding** |
+| Achieved using function overloading and operator overloading | Achieved using virtual functions and function overriding |
+| The decision is made by the compiler at compile time | The decision is made at runtime using vtables |
+| Faster due to early binding | More flexible but slightly slower |
+
 # Polymorphic classes
 
 * 3 keywords to deal with polymorphism in C++: **virtual** , **override**, **final**
